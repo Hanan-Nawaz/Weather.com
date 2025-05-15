@@ -11,7 +11,7 @@ const weather = () => {
     useEffect(() => {
         const fetchWeatherData = async () => {
             try {
-                const res = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${city}`);
+                const res = await axios.get(`https://api.weatherapi.com/v1/current.json?key=${api_key}&q=${city}`);
                 setData(res.data);
                 console.log(res.data)
             }
