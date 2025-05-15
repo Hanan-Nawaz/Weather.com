@@ -11,9 +11,10 @@ const weather = () => {
     useEffect(() => {
         const fetchWeatherData = async () => {
             try {
-                const res = await axios.get(`https://api.weatherapi.com/v1/current.json?key=${api_key}&q=${city}`);
+                const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`);
                 setData(res.data);
                 console.log(res.data)
+                console.log(`https://openweathermap.org/img/wn/${data?.weather?.[0]?.icon}@2x.png`);
             }
             catch (err) {
                 console.log(err);
@@ -44,20 +45,20 @@ const weather = () => {
 
             <div className="container-sub">
                 <div className="left">
-                    <img src={`${data?.current?.condition?.icon}`} />
+                    <img src={`https://openweathermap.org/img/wn/${data?.weather?.[0]?.icon}@2x.png`} />
                 </div>
 
                 <div className="right">
-                    <h1 className="temp">{data?.current?.temp_c} °C</h1>
+                    <h1 className="temp">{((data?.main?.temp - 273.15)).toFixed(1)} °C</h1>
                     <p className="text-weather">{data?.current?.condition?.text}</p>
-                    <p className="text-city">{data?.location?.name}, <b>{data?.location?.country}</b></p>
+                    <p className="text-city">{data?.name}, <b>{data?.sys?.country}</b></p>
 
                     <div className="humd-container">
                         <div className="left">
-                            <i className="fa fa-droplet"></i> {data?.current?.humidity} %
+                            <i className="fa fa-droplet"></i> {data?.main?.humidity} %
                         </div>
                         <div className="right">
-                            <i className="fa fa-wind"></i> {data?.current?.wind_kph} km/h
+                            <i className="fa fa-wind"></i> {(data?.wind?.speed * 3.6).toFixed(1)} km/h
                         </div>
                     </div>
                 </div>
